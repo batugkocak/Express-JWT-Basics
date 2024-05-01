@@ -1,10 +1,5 @@
-// check username, password in post(login) request
-// if exist create new JWT
-// send back to front-end
-
-// setup authentication so only the request with JWT can access the dasboard
 const jwt = require("jsonwebtoken");
-const CustomAPIError = require("../errors/custom-error");
+const { BadRequest } = require("../errors/index");
 require("dotenv").config();
 
 const login = async (req, res, next) => {
@@ -13,7 +8,7 @@ const login = async (req, res, next) => {
   // Joi
   // check in the controller
   if (!username || !password) {
-    throw new CustomAPIError("Please provide an email and password!", 400);
+    throw new BadRequest("Please provide an email and password!", 400);
   }
   const token = jwt.sign({ username: username }, process.env.JWT_SECRET, {
     expiresIn: "30d",
